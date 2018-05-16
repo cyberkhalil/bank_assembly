@@ -5,7 +5,7 @@ dosseg
 greating_msg db "Hello in bank simulation",0Ah,"$"
 ;pass_in_msg db "Enter your password : ","$"
 ;password db "test","$"
-password_length dw $-password-1
+;password_length dw $-password-1
 invalid_pass_msg db "the password you've entered is incorrect",0Ah,"$"
 main_menu_msg db "Main menu :-",0Ah,"(s) Show account balance ",0Ah,"(w) Withdraw money",0Ah,"(d) Deposit money",0Ah,"(q) Quit this program",0Ah,"$"
 incorrect_letter_msg db 0Ah,"You've entered incorrect choice .",0Ah,"$"
@@ -26,8 +26,8 @@ mov dx,offset greating_msg
 int '!'
 
 pass_main:
-call pass_in                      ; method to enter pass
-call check_pass                   ; method to check pass (if true return if false pass_in)
+;call pass_in                      ; method to enter pass
+;call check_pass                   ; method to check pass (if true return if false pass_in)
 call main_menu                     ; method to get the menu of the bank (if (s) show account balance and return to menu else if (w) withdraw money and return to menu else if(d) deposit money and return to menu else if (q) quit the program else print invaild_letter)
 
 mov ah,2
