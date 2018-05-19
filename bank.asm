@@ -3,9 +3,9 @@ dosseg
 
 .data                              ; data for the program
 greating_msg db "Hello in bank simulation",0Ah,"$"
-;pass_in_msg db "Enter your password : ","$"
-;password db "test","$"
-;password_length dw $-password-1
+pass_in_msg db "Enter your password : ","$"
+password db "password","$"
+password_length dw $-password-1
 invalid_pass_msg db "the password you've entered is incorrect",0Ah,"$"
 main_menu_msg db "Main menu :-",0Ah,"(s) Show account balance ",0Ah,"(w) Withdraw money",0Ah,"(d) Deposit money",0Ah,"(q) Quit this program",0Ah,"$"
 incorrect_letter_msg db 0Ah,"You've entered incorrect choice .",0Ah,"$"
@@ -26,8 +26,8 @@ mov dx,offset greating_msg
 int '!'
 
 pass_main:
-;call pass_in                      ; method to enter pass
-;call check_pass                   ; method to check pass (if true return if false pass_in)
+call pass_in                       ; method to enter pass
+call check_pass                    ; method to check pass (if true return if false pass_in)
 call main_menu                     ; method to get the menu of the bank (if (s) show account balance and return to menu else if (w) withdraw money and return to menu else if(d) deposit money and return to menu else if (q) quit the program else print invaild_letter)
 
 mov ah,2
@@ -39,6 +39,35 @@ mov ah,'L'
 int '!'
 
 ; --------- program end up there but all of those down is the methods used in the program -----------
+
+pass_in:                           ; method to store password
+mov ah,9
+mov dx,offset pass_in_msg
+int '!'
+mov dl,'*'
+mov bx,0
+call clearInput
+call take_input
+ret
+
+
+check_pass:                        ; method to check pass
+mov bx,0                           ; using bx in the index of each array
+check_pass_loop:
+mov dl,password[bx]
+mov dh,input[bx]
+inc bx
+cmp dl,dh
+je check_pass_loop
+cmp bx,password_length             ; maybe vaild and maybe not so we check the index which the two words changes in
+ja vaild
+mov ah,9
+mov dx,offset invalid_pass_msg
+int '!'
+jmp pass_main
+vaild:
+ret
+
 
 main_menu:
 mov ah,9                           ; print menu list
